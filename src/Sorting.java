@@ -44,6 +44,8 @@ array.
  O(l(n + 2r))= O(l · n) = O(n)
  */
 
+import javax.swing.plaf.ListUI;
+import javax.swing.plaf.SliderUI;
 import java.util.Arrays;
 public class Sorting {
     public void mergeSort(int[] array) {
@@ -93,6 +95,57 @@ public class Sorting {
             k++;
         }
     }
+
+    /**
+     * MergeSort LinkedList
+     * @param
+     */
+    public SListNode mergeSortLinkedList(SListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        SListNode middle = findMiddle(head);
+        SListNode head1 = mergeSortLinkedList(middle.next);
+        middle.next = null;
+        SListNode head2 = mergeSortLinkedList(head);
+        head = merge(head1, head2);
+        return head;
+    }
+    private SListNode findMiddle(SListNode head) {
+        SListNode slow = head;
+        SListNode fast = head.next;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+    private SListNode merge(SListNode head1, SListNode head2) {
+        SListNode dummy = new SListNode(0);
+        SListNode current = dummy;
+        while (head1 != null && head2 != null) {
+            if (head1.val < head2.val) {
+                current.next = head1;
+                head1 = head1.next;
+            } else {
+                current.next = head2;
+                head2 = head2.next;
+            }
+            current = current.next;
+        }
+        while (head1 != null) {
+            current.next = head1;
+            head1 = head1.next;
+            current = current.next;
+        }
+        while (head2 != null) {
+            current.next = head2;
+            head2 = head2.next;
+            current = current.next;
+        }
+        return dummy.next;
+    }
+
     public void quickSort(int[] array) {
         quickSortHelper(array, 0, array.length - 1);
     }
@@ -122,6 +175,70 @@ public class Sorting {
         array[i] = array[j];
         array[j] = temp;
     }
+
+
+    /**
+     * QuickSort LinkedList
+     * @param
+     */
+
+    public SListNode quickSortList(SListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        SListNode middle = findMiddle(head);
+        SListNode leftDummy = new SListNode(0), leftTail = leftDummy;
+        SListNode rightDummy = new SListNode(0), rightTail = rightDummy;
+        SListNode middleDummy = new SListNode(0), middleTail = middleDummy;
+        while (head != null) {
+//            System.out.println(head.val);
+            if (head.val < middle.val) {
+                leftTail.next = head;
+                leftTail = head;
+//                System.out.println(leftTail.val);
+            } else if (head.val > middle.val) {
+                rightTail.next = head;
+                rightTail = head;
+//                System.out.println(rightTail.val);
+            } else {
+                middleTail.next = head;
+                middleTail = head;
+//                System.out.println(middleTail.val);
+            }
+            head = head.next;
+        }
+//        System.out.println(leftDummy.next.val);
+//        System.out.println(leftTail.val);
+        leftTail.next = null;
+        rightTail.next = null;
+        middleTail.next = null;
+        SListNode left = quickSortList(leftDummy.next);
+        SListNode right = quickSortList(rightDummy.next);
+        return concat(left, middleDummy.next, right);
+    }
+    private SListNode concat(SListNode left, SListNode middle, SListNode right) {
+        SListNode dummy = new SListNode(0), tail = dummy;
+        while (left != null) {
+//            System.out.println(left.val);
+            tail.next = left;
+            left = left.next;
+            tail = tail.next;
+        }
+        while (middle != null) {
+//            System.out.print(middle.val);
+            tail.next = middle;
+            middle = middle.next;
+            tail = tail.next;
+        }
+        while (right != null) {
+            tail.next = right;
+            right = right.next;
+            tail = tail.next;
+        }
+        return dummy.next;
+    }
+
+
     public void radixSort(int[] array) {
         int n = array.length;
         int m = getMax(array);
@@ -164,9 +281,28 @@ public class Sorting {
         S.quickSort(array);
         S.radixSort(array2);
 //        S.mergeSort(array);
-        for (int i = 0; i < array2.length; i++) {
-            System.out.print(array2[i]);
-            System.out.print(",");
+//        for (int i = 0; i < array2.length; i++) {
+//            System.out.print(array2[i]);
+//            System.out.print(",");
+//        }
+        SListNode node1 = new SListNode(4);
+        SListNode node2 = new SListNode(1);
+        SListNode node3 = new SListNode(2);
+        SListNode node4 = new SListNode(8);
+        SListNode node5 = new SListNode(11);
+        SListNode node6 = new SListNode(8);
+        SListNode node7 = new SListNode(-1);
+        node1.next = node2;
+        node2.next = node3;
+        node3.next = node4;
+        node4.next = node5;
+        node5.next = node6;
+        node6.next = node7;
+//        SListNode sorted = S.mergeSortLinkedList(node1);
+        SListNode quickSorted = S.quickSortList(node1);
+        while (quickSorted != null) {
+            System.out.println(quickSorted.val);
+            quickSorted = quickSorted.next;
         }
     }
 }
