@@ -44,8 +44,7 @@ array.
  O(l(n + 2r))= O(l · n) = O(n)
  */
 
-import javax.swing.plaf.ListUI;
-import javax.swing.plaf.SliderUI;
+
 import java.util.Arrays;
 public class Sorting {
     public void mergeSort(int[] array) {
@@ -274,35 +273,35 @@ public class Sorting {
             array[i] = output[i];
         }
     }
-    public static void main(String args[]) {
-        Sorting S = new Sorting();
-        int[] array = {4,1,2,8,11,8,-1,3,6,-20, 3, 5, 11, 20,3,45,27,23,-3,-5};
-        int[] array2 = {111, 20, 13, 24, 333, 45, 56, 37, 18, 38, 235, 446, 98, 89, 100};
-        S.quickSort(array);
-        S.radixSort(array2);
-//        S.mergeSort(array);
-//        for (int i = 0; i < array2.length; i++) {
-//            System.out.print(array2[i]);
-//            System.out.print(",");
+//    public static void main(String args[]) {
+//        Sorting S = new Sorting();
+//        int[] array = {4,1,2,8,11,8,-1,3,6,-20, 3, 5, 11, 20,3,45,27,23,-3,-5};
+//        int[] array2 = {111, 20, 13, 24, 333, 45, 56, 37, 18, 38, 235, 446, 98, 89, 100};
+//        S.quickSort(array);
+//        S.radixSort(array2);
+////        S.mergeSort(array);
+////        for (int i = 0; i < array2.length; i++) {
+////            System.out.print(array2[i]);
+////            System.out.print(",");
+////        }
+//        SListNode node1 = new SListNode(4);
+//        SListNode node2 = new SListNode(1);
+//        SListNode node3 = new SListNode(2);
+//        SListNode node4 = new SListNode(8);
+//        SListNode node5 = new SListNode(11);
+//        SListNode node6 = new SListNode(8);
+//        SListNode node7 = new SListNode(-1);
+//        node1.next = node2;
+//        node2.next = node3;
+//        node3.next = node4;
+//        node4.next = node5;
+//        node5.next = node6;
+//        node6.next = node7;
+////        SListNode sorted = S.mergeSortLinkedList(node1);
+//        SListNode quickSorted = S.quickSortList(node1);
+//        while (quickSorted != null) {
+//            System.out.println(quickSorted.val);
+//            quickSorted = quickSorted.next;
 //        }
-        SListNode node1 = new SListNode(4);
-        SListNode node2 = new SListNode(1);
-        SListNode node3 = new SListNode(2);
-        SListNode node4 = new SListNode(8);
-        SListNode node5 = new SListNode(11);
-        SListNode node6 = new SListNode(8);
-        SListNode node7 = new SListNode(-1);
-        node1.next = node2;
-        node2.next = node3;
-        node3.next = node4;
-        node4.next = node5;
-        node5.next = node6;
-        node6.next = node7;
-//        SListNode sorted = S.mergeSortLinkedList(node1);
-        SListNode quickSorted = S.quickSortList(node1);
-        while (quickSorted != null) {
-            System.out.println(quickSorted.val);
-            quickSorted = quickSorted.next;
-        }
-    }
+//    }
 }
