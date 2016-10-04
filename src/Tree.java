@@ -414,6 +414,7 @@ public class Tree {
     public TreeNode inorderSuccessor(TreeNode root, TreeNode A) {
         TreeNode successor = null;
         while (root != null && root != A) {
+            // record the last node that has value greater than A
             if (root.val > A.val) {
                 successor = root;
                 root = root.left;
@@ -427,9 +428,10 @@ public class Tree {
         if (root.right == null) {
             return successor;
         }
+        // find right child's most left child
         root = root.right;
-        if (root.left != null) {
-            return root.left;
+        while (root.left != null) {
+            root = root.left;
         }
         return root;
     }
@@ -1154,12 +1156,316 @@ public class Tree {
         }
     }
 
+    /**
+     * Binary Tree Upside Down: Given a binary tree where all the right nodes are either leaf nodes with a sibling
+     * (a left node that shares the same parent node) or empty, flip it upside down and turn it into a tree where the
+     * original right nodes turned into left leaf nodes. Return the new root.
+     * Given a binary tree {1,2,3,4,5},return the root of the binary tree [4,5,2,#,#,3,1].
+     * @param args
+     */
+    public TreeNode upsideDownBinaryTree(TreeNode root) {
+        if (root == null || root.left == null) {
+            return root;
+        }
+        // newroot is the upsideDown of the old root's left child
+        TreeNode newroot = upsideDownBinaryTree(root.left);
+        // find new root's right most node, and put root.right to the right most node.left
+        TreeNode rightMostNode = newroot;
+        while (rightMostNode.right != null) {
+            rightMostNode = rightMostNode.right;
+        }
+        rightMostNode.left = root.right;
+        // since root is still connected to root.right and left, so make a node with root.val.
+        // Instead of doing this, you can set up root.right = null && root.left = null and
+        // write rightMostNode.right = root;
+        rightMostNode.right = new TreeNode(root.val);
+        return newroot;
+    }
+
+    /**
+     * Binary Tree Longest Consecutive Sequence: Given a binary tree, find the length of the longest consecutive
+     * sequence path.
+
+     The path refers to any sequence of nodes from some starting node to any node in the tree along the parent-child
+     connections. The longest consecutive path need to be from parent to child (cannot be the reverse).
 
 
+     * @param args
+     */
+    public int longestConsecutive(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        Queue<TreeNode> nodeQueue = new LinkedList<>();
+        Queue<Integer> sizeQueue = new LinkedList<>();
+        nodeQueue.offer(root);
+        sizeQueue.offer(1);
+        int max = Integer.MIN_VALUE;
+        while (!nodeQueue.isEmpty()) {
+            TreeNode node = nodeQueue.poll();
+            int size = sizeQueue.poll();
+            if (node.left != null) {
+                nodeQueue.offer(node.left);
+                if (node.left.val - 1 == node.val) {
+                    sizeQueue.offer(size + 1);
+                } else {
+                    sizeQueue.offer(1);
+                }
+            }
+            if (node.right != null) {
+                nodeQueue.offer(node.right);
+                if (node.right.val - 1 == node.val) {
+                    sizeQueue.offer(size + 1);
+                } else {
+                    sizeQueue.offer(1);
+                }
+            }
+            max = Math.max(max, size);
+        }
+        return max;
+    }
+
+    /**
+     * Closest Binary Search Tree Value: Given a non-empty binary search tree and a target value, find the value in
+     * the BST that is closest to the target.
+
+     Note:
+     Given target value is a floating point.
+     You are guaranteed to have only one unique value in the BST that is closest to the target.
+     Hide Company Tags
+     * @param args
+     */
+    public int closestValue(TreeNode root, double target) {
+        if (root == null) {
+            return 0;
+        }
+        int closest = root.val;
+        while (root != null) {
+            closest = Math.abs(closest - target) < Math.abs(root.val - target) ? closest : root.val;
+            root = root.val < target ? root.right : root.left;
+        }
+        return closest;
+    }
+
+    /**
+     * Closest Binary Search Tree Value II: Given a non-empty binary search tree and a target value, find k values in
+     * the BST that are closest to the target.
+     * @param args
+     */
+    public List<Integer> closestKValues(TreeNode root, double target, int k) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        Stack<TreeNode> predecessor = new Stack<>();
+        getPredecessor(root, target, predecessor);
+        Stack<TreeNode> successor = new Stack<>();
+        getSuccessor(root, target, successor);
+        for (int i = 0; i < k; i++) {
+            if (predecessor.isEmpty() && successor.isEmpty()) {
+                break;
+            } else if (predecessor.isEmpty()) {
+                result.add(successor.pop().val);
+            } else if (successor.isEmpty()) {
+                result.add(predecessor.pop().val);
+            } else {
+                TreeNode pre = predecessor.peek();
+                TreeNode suc = successor.peek();
+                if (Math.abs(pre.val - target) < Math.abs(suc.val - target)) {
+                    result.add(pre.val);
+                    predecessor.pop();
+                } else {
+                    result.add(suc.val);
+                    successor.pop();
+                }
+            }
+        }
+        return result;
+    }
+    private void getPredecessor(TreeNode root, double target, Stack<TreeNode> stack) {
+        if (root == null) {
+            return;
+        }
+        // search from left so that it's from small to large in the stack
+        getPredecessor(root.left, target, stack);
+        if (root.val > target) {
+            return;
+        }
+        stack.push(root);
+        getPredecessor(root.right, target, stack);
+    }
+    private void getSuccessor(TreeNode root, double target, Stack<TreeNode> stack) {
+        if (root == null) {
+            return;
+        }
+        // search from right so that it's from large to small in the stack
+        getSuccessor(root.right, target, stack);
+        if (root.val <= target) {
+            return;
+        }
+        stack.push(root);
+        getSuccessor(root.left, target, stack);
+    }
+
+    /**
+     * Count Univalue Subtrees: Given a binary tree, count the number of uni-value subtrees.
+
+     A Uni-value subtree means all nodes of the subtree have the same value.
+     * @param root
+     * @return
+     */
+
+    public int countUnivalSubtrees(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        if (isUnivalSubtree(root)) {
+            return countUnivalSubtrees(root.right) + countUnivalSubtrees(root.left) + 1;
+        } else {
+            return countUnivalSubtrees(root.right) + countUnivalSubtrees(root.left);
+        }
+    }
+    private boolean isUnivalSubtree(TreeNode root) {
+        if (root.left == null && root.right == null) {
+            return true;
+        }
+        if (root.left == null) {
+            return root.val == root.right.val && isUnivalSubtree(root.right);
+        }
+        if (root.right == null) {
+            return root.val == root.left.val && isUnivalSubtree(root.left);
+        }
+        return root.val == root.right.val && root.val == root.left.val && isUnivalSubtree(root.right) && isUnivalSubtree(root.left);
+    }
+
+    /**
+     * Verify Preorder Sequence in Binary Search Tree: Given an array of numbers, verify whether it is the correct
+     * preorder traversal sequence of a binary search tree.
+     * For inorder, just need to verify ascending order, for postorder, started from the end of the array and update max
+     * @param preorder
+     * @return
+     */
+    public boolean verifyPreorder(int[] preorder) {
+        if (preorder == null || preorder.length == 0) {
+            return true;
+        }
+        int min = Integer.MIN_VALUE;
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < preorder.length; i++) {
+            if (preorder[i] < min) {
+                return false;
+            }
+            while (!stack.isEmpty() && stack.peek() < preorder[i]) {
+                min = stack.pop();
+            }
+            stack.push(preorder[i]);
+        }
+        return true;
+    }
+
+    /**
+     *  Find Leaves of Binary Tree: Given a binary tree, collect a tree's nodes as if you
+     * were doing this: Collect and remove all leaves, repeat until the tree is empty.
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> findLeaves(TreeNode root) {
+        List<List<Integer>> leaves = new ArrayList<>();
+        if (root == null) {
+            return leaves;
+        }
+        findLeavesHelper(root, leaves);
+        return leaves;
+    }
+    private int findLeavesHelper(TreeNode root, List<List<Integer>> list) {
+        if (root == null) {
+            return -1;
+        }
+        int left = findLeavesHelper(root.left, list);
+        int right = findLeavesHelper(root.right, list);
+        int curr = Math.max(left, right) + 1;
+        if (list.size() <= curr) {
+            list.add(new ArrayList<Integer>());
+        }
+        list.get(curr).add(root.val);
+        return curr;
+    }
+
+    /**
+     * Sum of Left Leaves:
+     */
 
 
+    public int sumOfLeftLeaves(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int sum = 0;
+        if (isLeaf(root.left)) {
+            sum += root.left.val;
+        } else {
+            sum += sumOfLeftLeaves(root.left);
+        }
+        sum += sumOfLeftLeaves(root.right);
+        return sum;
+    }
+    private boolean isLeaf(TreeNode node) {
+        if (node == null) {
+            return false;
+        } else if (node.left == null && node.right == null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
+    /**
+     * Largest BST Subtree: Given a binary tree, find the largest subtree which is a Binary Search Tree (BST),
+     * where largest means subtree with largest number of nodes in it.
+     */
+    class Wrapper{
+        int size;
+        int lower, upper;
+        boolean isBST;
 
+        public Wrapper(){
+            lower = Integer.MAX_VALUE;
+            upper = Integer.MIN_VALUE;
+            isBST = false;
+            size = 0;
+        }
+    }
+    public int largestBSTSubtree(TreeNode root) {
+        return helper(root).size;
+    }
+
+    public Wrapper helper(TreeNode node){
+        Wrapper curr = new Wrapper();
+
+        if(node == null){
+            curr.isBST= true;
+            return curr;
+        }
+
+        Wrapper l = helper(node.left);
+        Wrapper r = helper(node.right);
+
+        //current subtree's boundaries
+        curr.lower = Math.min(node.val, l.lower);
+        curr.upper = Math.max(node.val, r.upper);
+
+        //check left and right subtrees are BST or not
+        //check left's upper again current's value and right's lower against current's value
+        if(l.isBST && r.isBST && l.upper<=node.val && r.lower>=node.val){
+            curr.size = l.size+r.size+1;
+            curr.isBST = true;
+        }else{
+            curr.size = Math.max(l.size, r.size);
+            curr.isBST  = false;
+        }
+
+        return curr;
+    }
     public static void main(String args[]) {
         TreeNode root = new TreeNode(8);
         TreeNode left1 = new TreeNode(3);
