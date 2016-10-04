@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e2f7e44f-8eaa-4235-a0ab-c8fd88315ce1" name="Default" comment="Basic tree operation">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/BasicKnowledge/Tree.class" afterPath="$PROJECT_DIR$/out/production/BasicKnowledge/Tree.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Tree.java" afterPath="$PROJECT_DIR$/src/Tree.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/TreeNode.java" afterPath="$PROJECT_DIR$/src/TreeNode.java" />
     </list>
     <ignored path="BasicKnowledge.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,10 +28,12 @@
       <file leaf-file-name="Tree.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Tree.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="810">
-              <caret line="552" column="12" selection-start-line="552" selection-start-column="12" selection-end-line="552" selection-end-column="12" />
+            <state relative-caret-position="-13154">
+              <caret line="228" column="7" selection-start-line="228" selection-start-column="7" selection-end-line="228" selection-end-column="7" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#33380#33390#0" expanded="true" />
+                <element signature="e#35151#35160#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -64,8 +65,8 @@
       <file leaf-file-name="TreeNode.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/TreeNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+            <state relative-caret-position="120">
+              <caret line="8" column="43" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -516,6 +517,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#33380#33390#0" expanded="true" />
+            <element signature="e#35151#35160#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -553,6 +556,8 @@
           <caret line="230" column="11" selection-start-line="230" selection-start-column="11" selection-end-line="230" selection-end-column="11" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#33380#33390#0" expanded="true" />
+            <element signature="e#35151#35160#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -590,6 +595,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#33380#33390#0" expanded="true" />
+            <element signature="e#35151#35160#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -672,18 +679,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/TreeNode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+        <state relative-caret-position="120">
+          <caret line="8" column="43" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Tree.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="810">
-          <caret line="552" column="12" selection-start-line="552" selection-start-column="12" selection-end-line="552" selection-end-column="12" />
+        <state relative-caret-position="-13154">
+          <caret line="228" column="7" selection-start-line="228" selection-start-column="7" selection-end-line="228" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#33380#33390#0" expanded="true" />
+            <element signature="e#35151#35160#0" expanded="true" />
           </folding>
         </state>
       </provider>
