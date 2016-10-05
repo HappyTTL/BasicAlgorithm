@@ -864,52 +864,28 @@ public class Tree {
      * populating Next Right Pointers in Each Node
      * @param args
      */
-    public void connectII(TreeNode root) {
+    public void connect(TreeNode root) {
         if (root == null) {
             return;
         }
-        TreeNode leftMarker;
-        if (root.left != null) {
-            leftMarker = root.left;
-        } else if (root.right != null) {
-            leftMarker = root.right;
-        } else {
-            leftMarker = null;
-        }
+        TreeNode leftMarker = root.left;
         TreeNode parent = root;
         while (leftMarker != null) {
             TreeNode currentMarker = leftMarker;
-            while (currentMarker != null) {
-                if (currentMarker == parent.left && parent.right != null) {
+            while (currentMarker != null && parent != null) {
+                if (currentMarker == parent.left) {
                     currentMarker.next = parent.right;
                     currentMarker = currentMarker.next;
                 } else {
                     parent = parent.next;
-                    while (parent != null && parent.left == null && parent.right == null) {
-                        parent = parent.next;
-                    }
-                    if (parent == null) {
-                        break;
-                    } else if (parent.left != null) {
+                    if (parent != null) {
                         currentMarker.next = parent.left;
-                        currentMarker = currentMarker.next;
-                    } else {
-                        currentMarker.next = parent.right;
                         currentMarker = currentMarker.next;
                     }
                 }
             }
             parent = leftMarker;
-            while (parent != null && parent.left == null && parent.right == null) {
-                parent = parent.next;
-            }
-            if (parent == null) {
-                break;
-            } else if (parent.left != null) {
-                leftMarker = parent.left;
-            } else {
-                leftMarker = parent.right;
-            }
+            leftMarker = parent.left;
         }
     }
 
@@ -1466,154 +1442,155 @@ public class Tree {
 
         return curr;
     }
-    public static void main(String args[]) {
-        TreeNode root = new TreeNode(8);
-        TreeNode left1 = new TreeNode(3);
-        root.left = left1;
-        TreeNode right1 = new TreeNode(10);
-        root.right = right1;
-        TreeNode left2 = new TreeNode(1);
-        left1.left = left2;
-        TreeNode right2 = new TreeNode(6);
-        left1.right = right2;
-        TreeNode right3 = new TreeNode(14);
-        right1.right = right3;
-        TreeNode left4 = new TreeNode(4);
-        right2.left = left4;
-        TreeNode right4 = new TreeNode(7);
-        right2.right = right4;
-        TreeNode left5 = new TreeNode(13);
-        right3.left = left5;
-        /**
-         *                            8
-         *                          /  \
-         *                         3   10
-         *                        / \   \
-         *                       1  6   14
-         *                         / \  /
-         *                        4  7 13
-          */
-        TreeNode rootDup = new TreeNode(8);
-        TreeNode left1Dup = new TreeNode(3);
-        rootDup.left = left1Dup;
-        TreeNode right1Dup = new TreeNode(10);
-        rootDup.right = right1Dup;
-        TreeNode left2Dup = new TreeNode(1);
-        left1Dup.left = left2Dup;
-        TreeNode right2Dup = new TreeNode(6);
-        left1Dup.right = right2Dup;
-        TreeNode right3Dup = new TreeNode(14);
-        right1Dup.right = right3Dup;
-        TreeNode left4Dup = new TreeNode(4);
-        right2Dup.left = left4Dup;
-        TreeNode right4Dup = new TreeNode(7);
-        right2Dup.right = right4Dup;
-        TreeNode left5Dup = new TreeNode(13);
-        right3Dup.left = left5Dup;
-        /**
-         *                            8
-         *                          /  \
-         *                         3   10
-         *                        / \   \
-         *                       1  6   14
-         *                         / \  /
-         *                        4  7 13
-         */
-        TreeNode rootSys = new TreeNode(8);
-        TreeNode leftSys = new TreeNode(3);
-        rootSys.left = leftSys;
-        TreeNode rightSys = new TreeNode(3);
-        rootSys.right = rightSys;
 
-        Tree t = new Tree();
-        int minimumDepth = t.minDepth(root);
-        int maximumDepth = t.maxDepth(root);
-//        ArrayList<Integer> preorder = t.preorderTraversalNoRecur(root);
-//        ArrayList<Integer> inorder = t.inorderTraversalNoRecur(root);
-//        ArrayList<Integer> postorder = t.postorderTraversalNoRecur(root);
-//        ArrayList<Integer> levelorder = t.levelorderTraversalNoRecur(root);
-        boolean isIdentical = t.isIdentical(root, rootDup);
-        if (isIdentical) {
-            System.out.println("two trees are identical");
-        }
-        t.invertBinaryTree(rootDup);
-        boolean isTweakedIdentical = t.isTweakedIdentical(root, rootDup);
-        if (isTweakedIdentical) {
-            System.out.println("two trees are tweaked identical");
-        }
-        boolean isSys = t.isSymmetric(rootSys);
-        if (isSys) {
-            System.out.println("the tree is symmetric");
-        } else {
-            System.out.println("the tree is not symmetric");
-        }
-        boolean isCom1 = t.isComplete(root);
-        boolean isCom2 = t.isComplete(rootSys);
-        if (isCom1) {
-            System.out.println("the first tree is complete");
-        } else {
-            System.out.println("the first tree is not complete");
-        }
-        if (isCom2) {
-            System.out.println("the second tree is complete");
-        } else {
-            System.out.println("the second tree is not complete");
-        }
-        boolean isBal = t.isBalenced(root);
-        if (isBal) {
-            System.out.println("the tree is balanced");
-        } else {
-            System.out.println("the tree is not balanced");
-        }
-        int maxPathSum = t.maxPathSum(root);
-        System.out.println(maxPathSum);
-//        String seri = t.serialize(root);
-//        System.out.println(seri);
-//        TreeNode newroot = t.deserialize(seri);
-//        while (newroot != null) {
-//            System.out.println(newroot.val);
-//            newroot = newroot.right;
-//        }
-//        TreeNode removeroot = t.removeNode(root, new TreeNode(10));
-//        ArrayList<Integer> inorder = t.inorderTraversalNoRecur(removeroot);
-//        System.out.println("inorder traversal:");
-//        for (int i = 0; i < inorder.size(); i++) {
-//            System.out.println(inorder.get(i));
-//        }
-//        TreeNode addroot = t.insertNode(removeroot, new TreeNode(10));
-//        ArrayList<Integer> inorder2 = t.inorderTraversalNoRecur(addroot);
-//        System.out.println("inorder traversal:");
-//        for (int i = 0; i < inorder2.size(); i++) {
-//            System.out.println(inorder2.get(i));
-//        }
-        ArrayList<Integer> searchrange = t.searchRange(root, 5, 10);
-        for (int i = 0; i < searchrange.size(); i++) {
-            System.out.println(searchrange.get(i));
-        }
-//        System.out.println("minimum and maximum Depth:");
-//        System.out.println(minimumDepth);
-//        System.out.println(maximumDepth);
-//        System.out.println("preorder traversal:");
-//        for (int i = 0; i < preorder.size(); i++) {
-//            System.out.println(preorder.get(i));
-//        }
-//        System.out.println("inorder traversal:");
-//        for (int i = 0; i < inorder.size(); i++) {
-//            System.out.println(inorder.get(i));
-//        }
-//        System.out.println("postorder traversal:");
-//        for (int i = 0; i < postorder.size(); i++) {
-//            System.out.println(postorder.get(i));
-//        }
-//        System.out.println("levelorder traversal:");
-//        for (int i = 0; i < levelorder.size(); i++) {
-//            System.out.println(levelorder.get(i));
+//    public static void main(String args[]) {
+//        TreeNode root = new TreeNode(8);
+//        TreeNode left1 = new TreeNode(3);
+//        root.left = left1;
+//        TreeNode right1 = new TreeNode(10);
+//        root.right = right1;
+//        TreeNode left2 = new TreeNode(1);
+//        left1.left = left2;
+//        TreeNode right2 = new TreeNode(6);
+//        left1.right = right2;
+//        TreeNode right3 = new TreeNode(14);
+//        right1.right = right3;
+//        TreeNode left4 = new TreeNode(4);
+//        right2.left = left4;
+//        TreeNode right4 = new TreeNode(7);
+//        right2.right = right4;
+//        TreeNode left5 = new TreeNode(13);
+//        right3.left = left5;
+//        /**
+//         *                            8
+//         *                          /  \
+//         *                         3   10
+//         *                        / \   \
+//         *                       1  6   14
+//         *                         / \  /
+//         *                        4  7 13
+//          */
+//        TreeNode rootDup = new TreeNode(8);
+//        TreeNode left1Dup = new TreeNode(3);
+//        rootDup.left = left1Dup;
+//        TreeNode right1Dup = new TreeNode(10);
+//        rootDup.right = right1Dup;
+//        TreeNode left2Dup = new TreeNode(1);
+//        left1Dup.left = left2Dup;
+//        TreeNode right2Dup = new TreeNode(6);
+//        left1Dup.right = right2Dup;
+//        TreeNode right3Dup = new TreeNode(14);
+//        right1Dup.right = right3Dup;
+//        TreeNode left4Dup = new TreeNode(4);
+//        right2Dup.left = left4Dup;
+//        TreeNode right4Dup = new TreeNode(7);
+//        right2Dup.right = right4Dup;
+//        TreeNode left5Dup = new TreeNode(13);
+//        right3Dup.left = left5Dup;
+//        /**
+//         *                            8
+//         *                          /  \
+//         *                         3   10
+//         *                        / \   \
+//         *                       1  6   14
+//         *                         / \  /
+//         *                        4  7 13
+//         */
+//        TreeNode rootSys = new TreeNode(8);
+//        TreeNode leftSys = new TreeNode(3);
+//        rootSys.left = leftSys;
+//        TreeNode rightSys = new TreeNode(3);
+//        rootSys.right = rightSys;
+//
+//        Tree t = new Tree();
+//        int minimumDepth = t.minDepth(root);
+//        int maximumDepth = t.maxDepth(root);
+////        ArrayList<Integer> preorder = t.preorderTraversalNoRecur(root);
+////        ArrayList<Integer> inorder = t.inorderTraversalNoRecur(root);
+////        ArrayList<Integer> postorder = t.postorderTraversalNoRecur(root);
+////        ArrayList<Integer> levelorder = t.levelorderTraversalNoRecur(root);
+//        boolean isIdentical = t.isIdentical(root, rootDup);
+//        if (isIdentical) {
+//            System.out.println("two trees are identical");
 //        }
 //        t.invertBinaryTree(rootDup);
-//        ArrayList<Integer> preorderInvert = t.preorderTraversalNoRecur(rootDup);
-//        System.out.println("Inverted Tree preorder traversal:");
-//        for (int i = 0; i < preorderInvert.size(); i++) {
-//            System.out.println(preorderInvert.get(i));
+//        boolean isTweakedIdentical = t.isTweakedIdentical(root, rootDup);
+//        if (isTweakedIdentical) {
+//            System.out.println("two trees are tweaked identical");
 //        }
-    }
+//        boolean isSys = t.isSymmetric(rootSys);
+//        if (isSys) {
+//            System.out.println("the tree is symmetric");
+//        } else {
+//            System.out.println("the tree is not symmetric");
+//        }
+//        boolean isCom1 = t.isComplete(root);
+//        boolean isCom2 = t.isComplete(rootSys);
+//        if (isCom1) {
+//            System.out.println("the first tree is complete");
+//        } else {
+//            System.out.println("the first tree is not complete");
+//        }
+//        if (isCom2) {
+//            System.out.println("the second tree is complete");
+//        } else {
+//            System.out.println("the second tree is not complete");
+//        }
+//        boolean isBal = t.isBalenced(root);
+//        if (isBal) {
+//            System.out.println("the tree is balanced");
+//        } else {
+//            System.out.println("the tree is not balanced");
+//        }
+//        int maxPathSum = t.maxPathSum(root);
+//        System.out.println(maxPathSum);
+////        String seri = t.serialize(root);
+////        System.out.println(seri);
+////        TreeNode newroot = t.deserialize(seri);
+////        while (newroot != null) {
+////            System.out.println(newroot.val);
+////            newroot = newroot.right;
+////        }
+////        TreeNode removeroot = t.removeNode(root, new TreeNode(10));
+////        ArrayList<Integer> inorder = t.inorderTraversalNoRecur(removeroot);
+////        System.out.println("inorder traversal:");
+////        for (int i = 0; i < inorder.size(); i++) {
+////            System.out.println(inorder.get(i));
+////        }
+////        TreeNode addroot = t.insertNode(removeroot, new TreeNode(10));
+////        ArrayList<Integer> inorder2 = t.inorderTraversalNoRecur(addroot);
+////        System.out.println("inorder traversal:");
+////        for (int i = 0; i < inorder2.size(); i++) {
+////            System.out.println(inorder2.get(i));
+////        }
+//        ArrayList<Integer> searchrange = t.searchRange(root, 5, 10);
+//        for (int i = 0; i < searchrange.size(); i++) {
+//            System.out.println(searchrange.get(i));
+//        }
+////        System.out.println("minimum and maximum Depth:");
+////        System.out.println(minimumDepth);
+////        System.out.println(maximumDepth);
+////        System.out.println("preorder traversal:");
+////        for (int i = 0; i < preorder.size(); i++) {
+////            System.out.println(preorder.get(i));
+////        }
+////        System.out.println("inorder traversal:");
+////        for (int i = 0; i < inorder.size(); i++) {
+////            System.out.println(inorder.get(i));
+////        }
+////        System.out.println("postorder traversal:");
+////        for (int i = 0; i < postorder.size(); i++) {
+////            System.out.println(postorder.get(i));
+////        }
+////        System.out.println("levelorder traversal:");
+////        for (int i = 0; i < levelorder.size(); i++) {
+////            System.out.println(levelorder.get(i));
+////        }
+////        t.invertBinaryTree(rootDup);
+////        ArrayList<Integer> preorderInvert = t.preorderTraversalNoRecur(rootDup);
+////        System.out.println("Inverted Tree preorder traversal:");
+////        for (int i = 0; i < preorderInvert.size(); i++) {
+////            System.out.println(preorderInvert.get(i));
+////        }
+//    }
 }
